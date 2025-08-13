@@ -1,0 +1,67 @@
+{
+  "name": "just-juggle-vs-code-extension",
+  "displayName": "Just Juggle Time Tracker",
+  "description": "Automated project time tracking for VS Code",
+  "publisher": "rudgalvis",
+  "author": "Rokas Rudgalvis",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.103.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "just-juggle.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "just-juggle.openPanel",
+        "title": "Just Juggle Configuration"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "justJugglePanel",
+          "name": "Just Juggle",
+          "when": "justJuggleEnabled"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "justJuggle",
+          "title": "Just Juggle",
+          "icon": "$(clock)"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.102.0",
+    "@types/mocha": "^10.0.8",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.7.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.11.1",
+    "typescript": "^5.6.2",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
