@@ -39,14 +39,16 @@ function getCssStyles(): string {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            cursor: pointer;
             user-select: none;
             white-space: nowrap;
         }
         .section h3 span {
           margin-right: auto;
         }
-        .section h3:hover {
+        .section.collapsible h3 {
+            cursor: pointer;
+        }
+        .section.collapsible h3:hover {
             opacity: 0.8;
         }
         .section.collapsible h3::after {

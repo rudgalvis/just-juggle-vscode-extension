@@ -135,6 +135,10 @@ class ActivityTracker {
             console.error("Missing project to log");
             return;
         }
+        if (project === ProjectDetector_1.DEFAULT_PROJECT_NAME) {
+            console.log("Skipping activity tracking for default project");
+            return;
+        }
         if (!apiKey) {
             console.error("Missing apiKey to log");
             return;
@@ -171,9 +175,7 @@ class ActivityTracker {
             catch (e) { }
             return;
         }
-        if (VERBOSE) {
-            console.log("Log accepted");
-        }
+        console.log(`[Just Juggle] Activity log for '${project}' project accepted by the server`);
     }
     // Future: Actual API call implementation
     async _makeApiRequest(endpoint, payload) {

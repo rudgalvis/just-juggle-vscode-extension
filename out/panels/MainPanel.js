@@ -78,11 +78,9 @@ class MainPanel {
                 this._handleResetProjectName();
                 break;
             case 'setApiKey':
-                console.log('test 2');
                 this._handleSetApiKey(message.apiKey);
                 break;
             case 'clearApiKey':
-                console.log('test');
                 this._handleClearApiKey();
                 break;
             case 'setApiEndpoint':

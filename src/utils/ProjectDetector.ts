@@ -4,12 +4,10 @@ import { StorageService } from "../services/StorageService";
 
 const VERBOSE = false;
 
+export const DEFAULT_PROJECT_NAME = "vscode-code-no-folder-open";
+
 export class ProjectDetector {
   public getProjectName(): string {
-    if (VERBOSE) {
-      console.log("ProjectDetector.getProjectName() called");
-    }
-
     // First, check if user has overridden the project name
     const storedProjectName = StorageService.instance.getProjectName();
     if (storedProjectName) {
@@ -28,16 +26,6 @@ export class ProjectDetector {
   }
 
   private _detectProjectName(): string {
-    if (VERBOSE) {
-      console.log(
-        "workspace.workspaceFolders:",
-        vscode.workspace.workspaceFolders,
-      );
-    }
-    if (VERBOSE) {
-      console.log("workspace.name:", vscode.workspace.name);
-    }
-
     // Try to get project name from workspace
     if (
       vscode.workspace.workspaceFolders &&
@@ -92,7 +80,7 @@ export class ProjectDetector {
     if (VERBOSE) {
       console.log("Falling back to default project name");
     }
-    return "Current Project";
+    return DEFAULT_PROJECT_NAME;
   }
 
   public setProjectName(projectName: string): void {

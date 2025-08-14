@@ -33,16 +33,14 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProjectDetector = void 0;
+exports.ProjectDetector = exports.DEFAULT_PROJECT_NAME = void 0;
 const vscode = __importStar(require("vscode"));
 const path = __importStar(require("path"));
 const StorageService_1 = require("../services/StorageService");
 const VERBOSE = false;
+exports.DEFAULT_PROJECT_NAME = "vscode-code-no-folder-open";
 class ProjectDetector {
     getProjectName() {
-        if (VERBOSE) {
-            console.log("ProjectDetector.getProjectName() called");
-        }
         // First, check if user has overridden the project name
         const storedProjectName = StorageService_1.StorageService.instance.getProjectName();
         if (storedProjectName) {
@@ -59,12 +57,6 @@ class ProjectDetector {
         return detectedName;
     }
     _detectProjectName() {
-        if (VERBOSE) {
-            console.log("workspace.workspaceFolders:", vscode.workspace.workspaceFolders);
-        }
-        if (VERBOSE) {
-            console.log("workspace.name:", vscode.workspace.name);
-        }
         // Try to get project name from workspace
         if (vscode.workspace.workspaceFolders &&
             vscode.workspace.workspaceFolders.length > 0) {
@@ -110,7 +102,7 @@ class ProjectDetector {
         if (VERBOSE) {
             console.log("Falling back to default project name");
         }
-        return "Current Project";
+        return exports.DEFAULT_PROJECT_NAME;
     }
     setProjectName(projectName) {
         StorageService_1.StorageService.instance.setProjectName(projectName);

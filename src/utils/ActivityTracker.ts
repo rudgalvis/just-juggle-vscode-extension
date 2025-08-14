@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { StorageService } from "../services/StorageService";
-import { ProjectDetector } from "./ProjectDetector";
+import { DEFAULT_PROJECT_NAME, ProjectDetector } from "./ProjectDetector";
 
 const VERBOSE = false;
 
@@ -141,6 +141,12 @@ export class ActivityTracker {
       console.error("Missing project to log");
       return;
     }
+
+    if (project === DEFAULT_PROJECT_NAME) {
+      console.log("Skipping activity tracking for default project");
+      return;
+    }
+
     if (!apiKey) {
       console.error("Missing apiKey to log");
       return;
@@ -181,9 +187,9 @@ export class ActivityTracker {
       return;
     }
 
-    if (VERBOSE) {
-      console.log("Log accepted");
-    }
+    console.log(
+      `[Just Juggle] Activity log for '${project}' project accepted by the server`,
+    );
   }
 
   // Future: Actual API call implementation

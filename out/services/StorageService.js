@@ -35,6 +35,7 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StorageService = void 0;
 const vscode = __importStar(require("vscode"));
+const VERBOSE = false;
 class StorageService {
     constructor(context) {
         this._context = context;
@@ -44,12 +45,13 @@ class StorageService {
     }
     static get instance() {
         if (!StorageService._instance) {
-            throw new Error('StorageService not initialized. Call initialize() first.');
+            throw new Error("StorageService not initialized. Call initialize() first.");
         }
         return StorageService._instance;
     }
     _getWorkspaceKey() {
-        if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0) {
+        if (vscode.workspace.workspaceFolders &&
+            vscode.workspace.workspaceFolders.length > 0) {
             return vscode.workspace.workspaceFolders[0].uri.fsPath;
         }
         return null;
@@ -69,7 +71,9 @@ class StorageService {
             return;
         }
         this._context.workspaceState.update(`projectName_${workspaceKey}`, projectName);
-        console.log(`Stored project name "${projectName}" for workspace: ${workspaceKey}`);
+        if (VERBOSE) {
+            console.log(`Stored project name "${projectName}" for workspace: ${workspaceKey}`);
+        }
     }
     clearProjectName() {
         const workspaceKey = this._getWorkspaceKey();
@@ -77,41 +81,51 @@ class StorageService {
             return;
         }
         this._context.workspaceState.update(`projectName_${workspaceKey}`, undefined);
-        console.log(`Cleared project name for workspace: ${workspaceKey}`);
+        if (VERBOSE) {
+            console.log(`Cleared project name for workspace: ${workspaceKey}`);
+        }
     }
     // API Key Storage (global)
     getApiKey() {
-        const apiKey = this._context.globalState.get('justJuggle_apiKey');
+        const apiKey = this._context.globalState.get("justJuggle_apiKey");
         return apiKey || null;
     }
     setApiKey(apiKey) {
-        this._context.globalState.update('justJuggle_apiKey', apiKey);
-        console.log('API key stored globally');
+        this._context.globalState.update("justJuggle_apiKey", apiKey);
+        if (VERBOSE) {
+            console.log("API key stored globally");
+        }
     }
     clearApiKey() {
-        this._context.globalState.update('justJuggle_apiKey', undefined);
-        console.log('API key cleared');
+        this._context.globalState.update("justJuggle_apiKey", undefined);
+        if (VERBOSE) {
+            console.log("API key cleared");
+        }
     }
     hasApiKey() {
         return !!this.getApiKey();
     }
     // API Endpoint Storage (global)
     getApiEndpoint() {
-        const customEndpoint = this._context.globalState.get('justJuggle_apiEndpoint');
+        const customEndpoint = this._context.globalState.get("justJuggle_apiEndpoint");
         return customEndpoint || StorageService.DEFAULT_API_ENDPOINT;
     }
     setApiEndpoint(endpoint) {
         // Clean up endpoint (remove trailing slash)
-        const cleanEndpoint = endpoint.replace(/\/$/, '');
-        this._context.globalState.update('justJuggle_apiEndpoint', cleanEndpoint);
-        console.log('API endpoint stored globally:', cleanEndpoint);
+        const cleanEndpoint = endpoint.replace(/\/$/, "");
+        this._context.globalState.update("justJuggle_apiEndpoint", cleanEndpoint);
+        if (VERBOSE) {
+            console.log("API endpoint stored globally:", cleanEndpoint);
+        }
     }
     clearApiEndpoint() {
-        this._context.globalState.update('justJuggle_apiEndpoint', undefined);
-        console.log('API endpoint cleared, using default');
+        this._context.globalState.update("justJuggle_apiEndpoint", undefined);
+        if (VERBOSE) {
+            console.log("API endpoint cleared, using default");
+        }
     }
     hasCustomApiEndpoint() {
-        const customEndpoint = this._context.globalState.get('justJuggle_apiEndpoint');
+        const customEndpoint = this._context.globalState.get("justJuggle_apiEndpoint");
         return !!customEndpoint;
     }
     getDefaultApiEndpoint() {
@@ -119,15 +133,17 @@ class StorageService {
     }
     // Development Mode Toggle
     isDevelopmentMode() {
-        const devMode = this._context.globalState.get('justJuggle_devMode');
+        const devMode = this._context.globalState.get("justJuggle_devMode");
         return devMode || false;
     }
     setDevelopmentMode(enabled) {
-        this._context.globalState.update('justJuggle_devMode', enabled);
-        console.log('Development mode:', enabled ? 'enabled' : 'disabled');
+        this._context.globalState.update("justJuggle_devMode", enabled);
+        if (VERBOSE) {
+            console.log("Development mode:", enabled ? "enabled" : "disabled");
+        }
     }
 }
 exports.StorageService = StorageService;
 // Default production endpoint
-StorageService.DEFAULT_API_ENDPOINT = 'https://api.just-juggle.com';
+StorageService.DEFAULT_API_ENDPOINT = "https://api.just-juggle.com";
 //# sourceMappingURL=StorageService.js.map

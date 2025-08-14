@@ -40,18 +40,20 @@ const ProjectDetector_1 = require("./utils/ProjectDetector");
 const StorageService_1 = require("./services/StorageService");
 const ActivityTracker_1 = require("./utils/ActivityTracker");
 const MainPanel_1 = require("./panels/MainPanel");
+const VERBOSE = false;
 function activate(context) {
-    console.log("Just Juggle extension is now active!");
+    if (VERBOSE) {
+        console.log("Just Juggle extension is now active!");
+    }
     // Initialize storage service
     StorageService_1.StorageService.initialize(context);
     // Debug ProjectDetector immediately on activation
     const projectDetector = new ProjectDetector_1.ProjectDetector();
     const projectName = projectDetector.getProjectName();
-    console.log("Current project name:", projectName);
+    if (VERBOSE) {
+        console.log("Current project name:", projectName);
+    }
     // Register commands
-    const helloWorldCommand = vscode.commands.registerCommand("just-juggle.helloWorld", () => {
-        vscode.window.showInformationMessage(`Hello from ${projectName}!`);
-    });
     const openPanelCommand = vscode.commands.registerCommand("just-juggle.openPanel", () => {
         MainPanel_1.MainPanel.createOrShow(context.extensionUri);
     });
@@ -83,13 +85,17 @@ function activate(context) {
     ActivityTracker_1.ActivityTracker.instance.startTracking();
     // Auto-start tracking if API key is configured
     if (StorageService_1.StorageService.instance.hasApiKey()) {
-        console.log("API key found, auto-starting activity tracking...");
+        if (VERBOSE) {
+            console.log("API key found, auto-starting activity tracking...");
+        }
         ActivityTracker_1.ActivityTracker.instance.startTracking();
     }
-    context.subscriptions.push(helloWorldCommand, openPanelCommand, setProjectNameCommand, resetProjectNameCommand, getProjectNameCommand);
+    context.subscriptions.push(openPanelCommand, setProjectNameCommand, resetProjectNameCommand, getProjectNameCommand);
 }
 function deactivate() {
-    console.log("Deactivating Just Juggle extension...");
+    if (VERBOSE) {
+        console.log("Deactivating Just Juggle extension...");
+    }
     ActivityTracker_1.ActivityTracker.instance.dispose();
 }
 //# sourceMappingURL=extension.js.map

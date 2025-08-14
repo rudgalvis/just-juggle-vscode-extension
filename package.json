@@ -1,12 +1,23 @@
 {
-  "name": "just-juggle-vs-code-extension",
-  "displayName": "Just Juggle Time Tracker",
-  "description": "Automated project time tracking for VS Code",
-  "publisher": "rudgalvis",
+  "name": "just-juggle",
+  "displayName": "Just Juggle - Time Tracker",
+  "description": "Groups coding time by project automatically. Syncs with Just Juggle dashboard.",
+  "publisher": "JustJuggle",
   "author": "Rokas Rudgalvis",
-  "version": "0.0.1",
+  "repository": "https://github.com/rudgalvis/just-juggle-vscode-extension",
+  "version": "0.0.3",
+  "icon": "icon.png",
   "engines": {
     "vscode": "^1.103.0"
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "package": "vsce package",
+    "lint": "eslint src",
+    "test": "vscode-test"
   },
   "categories": [
     "Other"
@@ -14,16 +25,20 @@
   "activationEvents": [
     "onStartupFinished"
   ],
+  "features": [
+    "Automatic time tracking - no timers to start/stop",
+    "Project-based logging with smart detection",
+    "Privacy-first approach - only tracks coding time, not content",
+    "Seamless integration with Just Juggle web platform",
+    "Real-time sync across all your devices",
+    "Detailed coding analytics and insights"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "just-juggle.helloWorld",
-        "title": "Hello World"
-      },
-      {
         "command": "just-juggle.openPanel",
-        "title": "Just Juggle Configuration"
+        "title": "Just Juggle: Configuration"
       }
     ],
     "views": {
@@ -44,14 +59,6 @@
         }
       ]
     }
-  },
-  "scripts": {
-    "vscode:prepublish": "pnpm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "pnpm run compile && pnpm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
   },
   "devDependencies": {
     "@types/vscode": "^1.102.0",

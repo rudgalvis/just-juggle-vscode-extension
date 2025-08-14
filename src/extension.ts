@@ -4,8 +4,12 @@ import { StorageService } from "./services/StorageService";
 import { ActivityTracker } from "./utils/ActivityTracker";
 import { MainPanel } from "./panels/MainPanel";
 
+const VERBOSE = false;
+
 export function activate(context: vscode.ExtensionContext) {
-  console.log("Just Juggle extension is now active!");
+  if (VERBOSE) {
+    console.log("Just Juggle extension is now active!");
+  }
 
   // Initialize storage service
   StorageService.initialize(context);
@@ -14,16 +18,11 @@ export function activate(context: vscode.ExtensionContext) {
   const projectDetector = new ProjectDetector();
   const projectName = projectDetector.getProjectName();
 
-  console.log("Current project name:", projectName);
+  if (VERBOSE) {
+    console.log("Current project name:", projectName);
+  }
 
   // Register commands
-  const helloWorldCommand = vscode.commands.registerCommand(
-    "just-juggle.helloWorld",
-    () => {
-      vscode.window.showInformationMessage(`Hello from ${projectName}!`);
-    },
-  );
-
   const openPanelCommand = vscode.commands.registerCommand(
     "just-juggle.openPanel",
     () => {
@@ -81,12 +80,13 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Auto-start tracking if API key is configured
   if (StorageService.instance.hasApiKey()) {
-    console.log("API key found, auto-starting activity tracking...");
+    if (VERBOSE) {
+      console.log("API key found, auto-starting activity tracking...");
+    }
     ActivityTracker.instance.startTracking();
   }
 
   context.subscriptions.push(
-    helloWorldCommand,
     openPanelCommand,
     setProjectNameCommand,
     resetProjectNameCommand,
@@ -95,6 +95,8 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() {
-  console.log("Deactivating Just Juggle extension...");
+  if (VERBOSE) {
+    console.log("Deactivating Just Juggle extension...");
+  }
   ActivityTracker.instance.dispose();
 }
